@@ -34,7 +34,7 @@ RUN apt-get install -y \
 
 RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
 
-env GIT_TOKEN # replace this your own git token!
+env GIT_TOKEN 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
 
 RUN git clone https://$GIT_TOKEN@github.com/ethz-asl/libnabo.git
 RUN cd libnabo && mkdir build && cd build && cmake .. && make -j32 && make install
@@ -44,7 +44,7 @@ RUN cd libpointmatcher && mkdir build && cd build && cmake .. && make -j32 && ma
 
 RUN apt-get install -y libeigen3-dev
 
-RUN mkdir steam_ws && cd steam_ws && git clone https://$GIT_TOKEN@github.com/utiasASRL/steam.git && \
+RUN mkdir steam_ws && cd steam_ws && git clone https://$GIT_TOKEN@github.com/hflemmen/steam.git && \
     cd steam && git submodule update --init --remote && \
     cd deps/catkin && catkin config --extend /opt/ros/kinetic && catkin build && cd ../.. && \
     catkin build
@@ -53,6 +53,6 @@ RUN git clone https://$GIT_TOKEN@github.com/jbeder/yaml-cpp.git
 RUN cd yaml-cpp && mkdir build && cd build && cmake .. && make -j32 && make install
 
 RUN mkdir catkin_ws && cd catkin_ws && mkdir src && cd src && \
-    git clone https://$GIT_TOKEN@github.com/keenan-burnett/yeti.git && \
+    git clone https://$GIT_TOKEN@github.com/hflemmen/yeti_radar_odometry.git && \
     cd .. && catkin config --extend /steam_ws/devel/repo && \
     catkin build
