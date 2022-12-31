@@ -41,7 +41,7 @@ target_link_libraries(features
 	${catkin_LIBRARIES}
 	${OpenCV_LIBRARIES}
 	${Boost_INCLUDE_DIRS}
-#    Eigen3::Eigen
+    Eigen3::Eigen
 )
 
 add_library(radar_utils
