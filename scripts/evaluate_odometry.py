@@ -180,8 +180,8 @@ if __name__ == '__main__':
         'accuracy2019-01-10-11-46-21-radar-oxford-10k',
         'accuracy2019-01-16-14-15-33-radar-oxford-10k']
 
-    folder = './icra_odom/'
-    ff = os.listdir('./icra_odom/')
+    folder = '/oxford/'
+    ff = os.listdir('/oxford/')
     files = []
     for f in ff:
         if 'accuracy' in f:
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     ate_dopp = []
 
     for file in files:
-	    print(file)
+        print(file)
         T_gt = np.identity(3)
         T_res = np.identity(3)
         T_md = np.identity(3)
