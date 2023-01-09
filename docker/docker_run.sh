@@ -1,0 +1,1 @@
+docker run -it --network host -v /home/henrik/Data/2019-01-10-14-36-48-radar-oxford-10k-partial:/2019-01-10-14-36-48-radar-oxford-10k-partial  keenan-yeti-1.0 "cd catkin_ws && source devel/setup.bash &&  ./build/yeti/odometry --root / --sequence 2019-01-10-14-36-48-radar-oxford-10k-partial --append test && cat accuracytest.csv"
