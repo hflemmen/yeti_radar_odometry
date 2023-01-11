@@ -31,7 +31,7 @@ int main(int argc, const char *argv[]) {
     // cen2019 parameters
     int max_points = 10000;
     // ORB descriptor / matching parameters
-    int patch_size = 21;                // width of patch in pixels in cartesian radar image
+    int patch_size = 51; // 21;                // width of patch in pixels in cartesian radar image
     float nndr = 0.80;                  // Nearest neighbor distance ratio
     // RANSAC
     double ransac_threshold = 0.35;
