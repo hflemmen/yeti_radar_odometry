@@ -131,6 +131,7 @@ public:
         double tolerance_, double inlier_ratio_, int iterations_) : tolerance(tolerance_),
         inlier_ratio(inlier_ratio_), iterations(iterations_) {
         const int dim = p1.rows();
+        std::cout << "p1:" << p1.cols() << ", p2: " << p2.cols() << ", p1.rows: " << p1.rows() << ", p2.rows: " << p2.rows() << ", dim: " << dim << '\n';
         assert(p1.cols() == p2.cols() && p1.rows() == p2.rows() && p1.cols() >= p1.rows() && (dim == 2 || dim == 3));
         p1bar = Eigen::MatrixXd::Zero(4, p1.cols());
         p2bar = Eigen::MatrixXd::Zero(4, p2.cols());
