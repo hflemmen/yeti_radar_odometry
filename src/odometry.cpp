@@ -92,6 +92,7 @@ int main(int argc, const char *argv[]) {
             convert_from_bev(kp2, cart_resolution, cart_pixel_width, cart_targets2);
             getTimes(cart_targets2, azimuths, times, t2);
         }
+        std::cout << "img1.shape: " << img1.size() << ", img2.size():" << img2.size() << '\n';
         if (i == 0)
             continue;
         // Match keypoint descriptors
