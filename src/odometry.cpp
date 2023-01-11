@@ -31,7 +31,7 @@ int main(int argc, const char *argv[]) {
     // cen2019 parameters
     int max_points = 10000;
     // ORB descriptor / matching parameters
-    int patch_size = 51; // 21;                // width of patch in pixels in cartesian radar image
+    int patch_size = 21; // 21;                // width of patch in pixels in cartesian radar image
     float nndr = 0.80;                  // Nearest neighbor distance ratio
     // RANSAC
     double ransac_threshold = 0.35;
@@ -94,7 +94,7 @@ int main(int argc, const char *argv[]) {
             getTimes(cart_targets2, azimuths, times, t2);
         }
         std::cout << "img1.shape: " << img1.size() << ", img2.size():" << img2.size() << '\n';
-        std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << ")\n";
+        std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << "), desc1:" << desc1.rows() <<"\n";
         if (i == 0)
             continue;
         // Match keypoint descriptors
