@@ -24,9 +24,9 @@ int main(int argc, const char *argv[]) {
     float cart_resolution = 0.2592;     // meters per pixel
     int cart_pixel_width = 964;         // height and width of cartesian image in pixels
     bool interp = true;
-    int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
+    int keypoint_extraction = 1;        // 0: cen2018, 1: cen2019, 2: orb
     // cen2018 parameters
-    float zq = 10.0; // 3.0;
+    float zq = 3.0; // 3.0;
     int sigma_gauss = 17;
     // cen2019 parameters
     int max_points = 10000;
