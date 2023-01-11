@@ -18,9 +18,9 @@ int main(int argc, const char *argv[]) {
     omp_set_num_threads(8);
     std::string datadir = root + sequence + "/radar";
     std::string gt = root + sequence + "/gt/radar_odometry.csv";
-
+    std::cout << "Hei1" << std::endl;
     int min_range = 58;                 // min range of radar points (bin)
-    float radar_resolution = 0.0432;    // resolution of radar bins in meters per bin
+    float radar_resolution = 3.4; //0.0432;    // resolution of radar bins in meters per bin
     float cart_resolution = 0.2592;     // meters per pixel
     int cart_pixel_width = 964;         // height and width of cartesian image in pixels
     bool interp = true;

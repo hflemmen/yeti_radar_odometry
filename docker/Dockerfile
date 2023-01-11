@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
     git \
     python3-pip
 
-RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install numpy matplotlib
+#RUN python3 -m pip install --upgrade pip
+#RUN python3 -m pip install numpy matplotlib
 
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
@@ -26,6 +26,8 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
 ENV ROS_DISTRO kinetic
+
+RUN apt-get update && apt-get install -y gdb
 
 # install ros packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
