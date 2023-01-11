@@ -24,7 +24,7 @@ int main(int argc, const char *argv[]) {
     float cart_resolution = 0.2592;     // meters per pixel
     int cart_pixel_width = 964;         // height and width of cartesian image in pixels
     bool interp = true;
-    int keypoint_extraction = 2;        // 0: cen2018, 1: cen2019, 2: orb
+    int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
     // cen2018 parameters
     float zq = 3.0; // 3.0;
     int sigma_gauss = 17;
@@ -73,6 +73,7 @@ int main(int argc, const char *argv[]) {
             t1 = t2; desc1 = desc2.clone(); cart_targets1 = cart_targets2;
             kp1 = kp2; img2.copyTo(img1);
         }
+        std::cout << "Reading file: " << datadir + "/" + radar_files[i] << '\n';
         load_radar(datadir + "/" + radar_files[i], times, azimuths, valid, fft_data);
         if (keypoint_extraction == 0)
             cen2018features(fft_data, zq, sigma_gauss, min_range, targets);
