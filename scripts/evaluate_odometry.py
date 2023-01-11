@@ -5,7 +5,8 @@ import os
 import matplotlib.pyplot as plt
 from plot_scan_matching_accuracy import *
 
-lengths = [100, 200, 300, 400, 500, 600, 700, 800]
+# lengths = [100, 200, 300, 400, 500, 600, 700, 800]
+lengths = [10, 20, 30, 40, 50, 60, 70, 80]
 
 # Calculates path length along the trajectory
 def trajectoryDistances(poses):
@@ -180,8 +181,8 @@ if __name__ == '__main__':
         'accuracy2019-01-10-11-46-21-radar-oxford-10k',
         'accuracy2019-01-16-14-15-33-radar-oxford-10k']
 
-    folder = '/oxford/'
-    ff = os.listdir('/oxford/')
+    folder = '/home/henrik/Results/yeti/'
+    ff = os.listdir('/home/henrik/Results/yeti/')
     files = []
     for f in ff:
         if 'accuracy' in f:

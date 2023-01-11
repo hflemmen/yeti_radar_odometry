@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     gcc-5 \
     g++-5 \
-    git
+    git \
+    python3-pip
+
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install numpy matplotlib
 
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
