@@ -26,7 +26,7 @@ int main(int argc, const char *argv[]) {
     bool interp = true;
     int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
     // cen2018 parameters
-    float zq = 3.0;
+    float zq = 1.0; // 3.0;
     int sigma_gauss = 17;
     // cen2019 parameters
     int max_points = 10000;
