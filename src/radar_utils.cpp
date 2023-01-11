@@ -56,6 +56,7 @@ void load_radar(std::string path, std::vector<int64_t> &timestamps, std::vector<
     if (navtech_version == CIR204)
         range_bins = 3360;
     fft_data = cv::Mat::zeros(N, range_bins, CV_32F);
+    std::cout << "fftdata.size:" << fft_data.size() << '\n';
 #pragma omp parallel
     for (int i = 0; i < N; ++i) {
         uchar* byteArray = raw_example_data.ptr<uchar>(i);
