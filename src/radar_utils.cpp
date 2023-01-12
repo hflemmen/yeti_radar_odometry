@@ -67,6 +67,8 @@ void load_radar(std::string path, std::vector<int64_t> &timestamps, std::vector<
             fft_data.at<float>(i, j) = (float)*(byteArray + 11 + j) / 255.0;
         }
     }
+    cv::imshow("fftdata", fft_data);
+    cv::waitKey(0);
 }
 
 // file is in the oxford dataset format
