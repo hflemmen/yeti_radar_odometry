@@ -95,7 +95,7 @@ int main(int argc, const char *argv[]) {
         }
         std::cout << "img1.shape: " << img1.size() << ", img2.size():" << img2.size() << '\n';
         std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << ") desc1size: " << desc1.size() << "\n";
-        cv::imshow("img2", fft_data);
+        cv::imshow("img2", img2);
         cv::waitKey(0);
         if (i == 0)
             continue;
