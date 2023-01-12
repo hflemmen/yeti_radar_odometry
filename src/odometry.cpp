@@ -94,7 +94,7 @@ int main(int argc, const char *argv[]) {
             getTimes(cart_targets2, azimuths, times, t2);
         }
         std::cout << "img1.shape: " << img1.size() << ", img2.size():" << img2.size() << '\n';
-        std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << "), desc1:" << desc1.rows() <<"\n";
+        std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << ") desc1size: " << desc1.size() << "\n";
         if (i == 0)
             continue;
         // Match keypoint descriptors
