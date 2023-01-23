@@ -18,20 +18,20 @@ int main(int argc, const char *argv[]) {
     omp_set_num_threads(8);
     std::string datadir = root + sequence + "/radar";
     std::string gt = root + sequence + "/gt/radar_odometry.csv";
-    std::cout << "Hei1" << std::endl;
+
     int min_range = 58;                 // min range of radar points (bin)
-    float radar_resolution = 3.4; //0.0432;    // resolution of radar bins in meters per bin
+    float radar_resolution = 0.0432;    // resolution of radar bins in meters per bin
     float cart_resolution = 0.2592;     // meters per pixel
     int cart_pixel_width = 964;         // height and width of cartesian image in pixels
     bool interp = true;
     int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
     // cen2018 parameters
-    float zq = 3.0; // 3.0;
+    float zq = 3.0;
     int sigma_gauss = 17;
     // cen2019 parameters
     int max_points = 10000;
     // ORB descriptor / matching parameters
-    int patch_size = 21; // 21;                // width of patch in pixels in cartesian radar image
+    int patch_size = 21;                // width of patch in pixels in cartesian radar image
     float nndr = 0.80;                  // Nearest neighbor distance ratio
     // RANSAC
     double ransac_threshold = 0.35;
