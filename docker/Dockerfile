@@ -61,7 +61,7 @@ RUN cd yaml-cpp && mkdir build && cd build && cmake .. && make -j32 && make inst
 RUN echo "2"
 RUN mkdir catkin_ws && cd catkin_ws && mkdir src && cd src && \
 #    git clone https://git@github.com/hflemmen/yeti_radar_odometry.git && \
-    cd .. && catkin config --extend /steam_ws/devel/repo \
+    cd .. && catkin config --extend /steam_ws/devel/repo
 #    && \
 #    catkin build
 
