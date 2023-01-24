@@ -52,7 +52,7 @@ void load_radar(std::string path, std::vector<int64_t> &timestamps, std::vector<
     timestamps = std::vector<int64_t>(N, 0);
     azimuths = std::vector<double>(N, 0);
     valid = std::vector<bool>(N, true);
-    int range_bins = 4078; //3768; // Columns in radar image
+    int range_bins = 3400; //3768; // Columns in radar image
 //    if (navtech_version == CIR204)
 //        range_bins = 3360;
     fft_data = cv::Mat::zeros(N, range_bins, CV_32F);
