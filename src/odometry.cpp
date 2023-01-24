@@ -19,10 +19,10 @@ int main(int argc, const char *argv[]) {
     std::string datadir = root + sequence + "/radar";
     std::string gt = root + sequence + "/gt/radar_odometry.csv";
 
-    int min_range = 58;                 // min range of radar points (bin)
-    float radar_resolution = 0.0432;    // resolution of radar bins in meters per bin
-    float cart_resolution = 0.2592;     // meters per pixel
-    int cart_pixel_width = 964;         // height and width of cartesian image in pixels
+    int min_range = 100; // 58;                 // min range of radar points (bin)
+    float radar_resolution = 3.7; // 0.0432;    // resolution of radar bins in meters per bin
+    float cart_resolution =  16; // 0.2592;     // meters per pixel
+    int cart_pixel_width = 1264;         // height and width of cartesian image in pixels
     bool interp = true;
     int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
     // cen2018 parameters

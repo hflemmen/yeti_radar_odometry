@@ -52,7 +52,7 @@ void load_radar(std::string path, std::vector<int64_t> &timestamps, std::vector<
     timestamps = std::vector<int64_t>(N, 0);
     azimuths = std::vector<double>(N, 0);
     valid = std::vector<bool>(N, true);
-    int range_bins = 3400; //3768; // Columns in radar image
+    int range_bins = 4080; //3768; // Columns in radar image
 //    if (navtech_version == CIR204)
 //        range_bins = 3360;
     fft_data = cv::Mat::zeros(N, range_bins, CV_32F);
@@ -67,6 +67,10 @@ void load_radar(std::string path, std::vector<int64_t> &timestamps, std::vector<
             fft_data.at<float>(i, j) = (float)*(byteArray + 11 + j) / 255.0;
         }
     }
+//    std::cout << "Loaded radar data from " << path << '\n';
+//    for (double azimuth: azimuths){
+//        std::cout << azimuth << std::endl;
+//    }
     cv::imshow("fftdata", fft_data);
     cv::waitKey(0);
 }
@@ -216,12 +220,15 @@ void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, 
     cv::Mat angle = cv::Mat::zeros(cart_pixel_width, cart_pixel_width, CV_32F);
 
     double azimuth_step = azimuths[1] - azimuths[0];
+    for (double azimuth: azimuths){
+        std::cout << azimuth << std::endl;
+    }
 #pragma omp parallel for collapse(2)
     for (int i = 0; i < range.rows; ++i) {
         for (int j = 0; j < range.cols; ++j) {
-            float x = map_x.at<float>(i, j);
-            float y = map_y.at<float>(i, j);
-            float r = (sqrt(pow(x, 2) + pow(y, 2)) - radar_resolution / 2) / radar_resolution;
+            float x = map_x.at<float>(i, j); // in m
+            float y = map_y.at<float>(i, j); // in m
+            float r = (sqrt(pow(x, 2) + pow(y, 2)) - radar_resolution / 2) / radar_resolution; // in pixels
             if (r < 0)
                 r = 0;
             range.at<float>(i, j) = r;
