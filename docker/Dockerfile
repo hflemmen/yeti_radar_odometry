@@ -58,10 +58,11 @@ RUN mkdir steam_ws && cd steam_ws && git clone https://git@github.com/hflemmen/s
 RUN git clone https://git@github.com/jbeder/yaml-cpp.git
 RUN cd yaml-cpp && mkdir build && cd build && cmake .. && make -j32 && make install
 
-RUN echo "1"
+RUN echo "2"
 RUN mkdir catkin_ws && cd catkin_ws && mkdir src && cd src && \
-    git clone https://git@github.com/hflemmen/yeti_radar_odometry.git && \
-    cd .. && catkin config --extend /steam_ws/devel/repo && \
-    catkin build
+#    git clone https://git@github.com/hflemmen/yeti_radar_odometry.git && \
+    cd .. && catkin config --extend /steam_ws/devel/repo \
+#    && \
+#    catkin build
 
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
