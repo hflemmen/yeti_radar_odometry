@@ -220,9 +220,9 @@ void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, 
     cv::Mat angle = cv::Mat::zeros(cart_pixel_width, cart_pixel_width, CV_32F);
 
     double azimuth_step = azimuths[1] - azimuths[0];
-    for (double azimuth: azimuths){
-        std::cout << azimuth << std::endl;
-    }
+//    for (double azimuth: azimuths){
+//        std::cout << azimuth << std::endl;
+//    }
 #pragma omp parallel for collapse(2)
     for (int i = 0; i < range.rows; ++i) {
         for (int j = 0; j < range.cols; ++j) {
@@ -369,14 +369,18 @@ void draw_points(cv::Mat &vis, Eigen::MatrixXd cart_targets, float cart_resoluti
 
 // Oxford format
 bool get_groundtruth_odometry(std::string gtfile, int64 t1, int64 t2, std::vector<float> &gt) {
+    std::cout << "Reading groundtruth from " << gtfile << std::endl;
     std::ifstream ifs(gtfile);
+    std::cout << "Reading groundtruth from " << gtfile << std::endl;
     std::string line;
     std::getline(ifs, line);
+    std::cout << "Got first line\n";
     gt.clear();
     bool gtfound = false;
     while (std::getline(ifs, line)) {
         std::vector<std::string> parts;
         boost::split(parts, line, boost::is_any_of(","));
+        std::cout << "Stoll argument: " << parts[9] << ", " << parts[8] << std::endl;
         if (std::stoll(parts[9]) == t1 && std::stoll(parts[8]) == t2) {
             for (int i = 2; i < 8; ++i) {
                 gt.push_back(std::stof(parts[i]));
@@ -385,6 +389,7 @@ bool get_groundtruth_odometry(std::string gtfile, int64 t1, int64 t2, std::vecto
             break;
         }
     }
+    std::cout << "Got ground truth\n";
     return gtfound;
 }
 

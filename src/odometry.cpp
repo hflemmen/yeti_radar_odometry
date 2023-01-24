@@ -87,6 +87,7 @@ int main(int argc, const char *argv[]) {
                 // radar_resolution, 0.3456, 722, desc2);
             detector->compute(img2, kp2, desc2);
         }
+        std::cout << "Keypoint extraction done" << std::endl;
         if (keypoint_extraction == 2) {
             detector->detect(img2, kp2);
             detector->compute(img2, kp2, desc2);
@@ -112,6 +113,7 @@ int main(int argc, const char *argv[]) {
                 good_matches.push_back(knn_matches[j][0]);
             }
         }
+        std::cout << "good_matches: " << good_matches.size() << '\n';
         // Convert the good key point matches to Eigen matrices
         Eigen::MatrixXd p1 = Eigen::MatrixXd::Zero(2, good_matches.size());
         Eigen::MatrixXd p2 = p1;
@@ -133,36 +135,41 @@ int main(int argc, const char *argv[]) {
         boost::split(parts, radar_files[i + 1], boost::is_any_of("."));
         int64 time2 = std::stoll(parts[0]);
         double delta_t = (time2 - time1) / 1000000.0;
-
+        std::cout << "hei1\n";
         // Compute the transformation using RANSAC
         Ransac ransac(p2, p1, ransac_threshold, inlier_ratio, max_iterations);
         srand(i);
         ransac.computeModel();
         Eigen::MatrixXd T;  // T_1_2
         ransac.getTransform(T);
+        std::cout << "hei2\n";
 
         // Compute the transformation using motion-distorted RANSAC
         MotionDistortedRansac mdransac(p2, p1, t2prime, t1prime, md_threshold, inlier_ratio, max_iterations);
+        std::cout << "hei3\n";
         mdransac.setMaxGNIterations(max_gn_iterations);
         mdransac.correctForDoppler(false);
         srand(i);
+        std::cout << "hei4\n";
         mdransac.computeModel();
         Eigen::MatrixXd Tmd;
         mdransac.getTransform(delta_t, Tmd);
         Tmd = Tmd.inverse();
+        std::cout << "hei5\n";
 
         Eigen::VectorXd wbar;
         mdransac.getMotion(wbar);
-
+        std::cout << "hei6\n";
         // MDRANSAC + Doppler
         mdransac.correctForDoppler(true);
         mdransac.setDopplerParameter(beta);
+        std::cout << "hei7\n";
         srand(i);
         mdransac.computeModel();
         Eigen::MatrixXd Tmd2 = Eigen::MatrixXd::Zero(4, 4);
         mdransac.getTransform(delta_t, Tmd2);
         Tmd2 = Tmd2.inverse();
-
+        std::cout << "hei8\n";
         // Retrieve the ground truth to calculate accuracy
         std::vector<float> gtvec;
         if (!get_groundtruth_odometry(gt, time1, time2, gtvec)) {
@@ -172,13 +179,13 @@ int main(int argc, const char *argv[]) {
         float yaw = -1 * asin(T(0, 1));
         float yaw2 = -1 * asin(Tmd(0, 1));
         float yaw3 = -1 * asin(Tmd2(0, 1));
-
+        std::cout << "yaw: " << yaw << ", yaw2: " << yaw2 << ", yaw3: " << yaw3 << '\n';
         // Write estimated and ground truth transform to the csv file
         ofs << T(0, 2) << "," << T(1, 2) << "," << yaw << ",";
         ofs << gtvec[0] << "," << gtvec[1] << "," << gtvec[5] << ",";
         ofs << time1 << "," << time2 << "," << Tmd(0, 3) << "," << Tmd(1, 3) << "," <<  yaw2 << ",";
         ofs << Tmd2(0, 3) << "," << Tmd2(1, 3) << "," << yaw3 << "\n";
-
+        std::cout << "hei9\n";
         // cv::Mat img_matches;
         // cv::drawMatches(img1, kp1, img2, kp2, good_matches, img_matches, cv::Scalar::all(-1),
         //          cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
