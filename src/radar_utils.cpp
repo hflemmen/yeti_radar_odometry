@@ -263,19 +263,19 @@ void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, 
         cv::minMaxLoc(cart_img, &min, &max);
         cart_img.convertTo(cart_img, CV_8UC1, 255.0 / max);
     }
-    cv::imshow("Conv_done", cart_img);
-    cv::Mat range_viz;
-    cv::Mat angle_viz;
-//    range.convertTo(range_viz, CV_32F, 1.0 / 255, 0);
-    cv::normalize(range, range_viz, 0, 1, cv::NORM_MINMAX);
-    cv::normalize(angle, angle_viz, 0, 1, cv::NORM_MINMAX);
-    cv::imshow("Range", range_viz);
-    cv::imshow("Angle", angle_viz);
-    cv::Mat viz_img;
-    int down_width = 800;
-    int down_height = 800;
-    cv::resize(fft_data, viz_img, cv::Size(down_width, down_height), cv::INTER_LINEAR);
-    cv::imshow("Conv_undone", viz_img);
+//    cv::imshow("Conv_done", cart_img);
+//    cv::Mat range_viz;
+//    cv::Mat angle_viz;
+////    range.convertTo(range_viz, CV_32F, 1.0 / 255, 0);
+//    cv::normalize(range, range_viz, 0, 1, cv::NORM_MINMAX);
+//    cv::normalize(angle, angle_viz, 0, 1, cv::NORM_MINMAX);
+//    cv::imshow("Range", range_viz);
+//    cv::imshow("Angle", angle_viz);
+//    cv::Mat viz_img;
+//    int down_width = 800;
+//    int down_height = 800;
+//    cv::resize(fft_data, viz_img, cv::Size(down_width, down_height), cv::INTER_LINEAR);
+//    cv::imshow("Conv_undone", viz_img);
     cv::waitKey(1);
 }
 

@@ -7,9 +7,9 @@
 #include "features.hpp"
 
 int main() {
-    std::string datadir = "/media/keenan/autorontossd1/2020_11_10/radar";
-    float cart_resolution = 0.2592;
-    int cart_pixel_width = 772;
+    std::string datadir = "/oxford/polarlys/radar";
+    float cart_resolution = 16;
+    int cart_pixel_width = 1264;
     bool interpolate_crossover = true;
 
     // Get file names of the radar images
