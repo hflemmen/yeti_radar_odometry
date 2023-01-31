@@ -96,8 +96,8 @@ int main(int argc, const char *argv[]) {
         }
         std::cout << "img1.shape: " << img1.size() << ", img2.size():" << img2.size() << '\n';
         std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << ") desc1size: " << desc1.size() << "\n";
-        cv::imshow("img2", img2);
-        cv::waitKey(0);
+//        cv::imshow("img2", img2);
+//        cv::waitKey(0);
         if (i == 0)
             continue;
         // Match keypoint descriptors
@@ -135,41 +135,33 @@ int main(int argc, const char *argv[]) {
         boost::split(parts, radar_files[i + 1], boost::is_any_of("."));
         int64 time2 = std::stoll(parts[0]);
         double delta_t = (time2 - time1) / 1000000.0;
-        std::cout << "hei1\n";
         // Compute the transformation using RANSAC
         Ransac ransac(p2, p1, ransac_threshold, inlier_ratio, max_iterations);
         srand(i);
         ransac.computeModel();
         Eigen::MatrixXd T;  // T_1_2
         ransac.getTransform(T);
-        std::cout << "hei2\n";
 
         // Compute the transformation using motion-distorted RANSAC
         MotionDistortedRansac mdransac(p2, p1, t2prime, t1prime, md_threshold, inlier_ratio, max_iterations);
-        std::cout << "hei3\n";
         mdransac.setMaxGNIterations(max_gn_iterations);
         mdransac.correctForDoppler(false);
         srand(i);
-        std::cout << "hei4\n";
         mdransac.computeModel();
         Eigen::MatrixXd Tmd;
         mdransac.getTransform(delta_t, Tmd);
         Tmd = Tmd.inverse();
-        std::cout << "hei5\n";
 
         Eigen::VectorXd wbar;
         mdransac.getMotion(wbar);
-        std::cout << "hei6\n";
         // MDRANSAC + Doppler
         mdransac.correctForDoppler(true);
         mdransac.setDopplerParameter(beta);
-        std::cout << "hei7\n";
         srand(i);
         mdransac.computeModel();
         Eigen::MatrixXd Tmd2 = Eigen::MatrixXd::Zero(4, 4);
         mdransac.getTransform(delta_t, Tmd2);
         Tmd2 = Tmd2.inverse();
-        std::cout << "hei8\n";
         // Retrieve the ground truth to calculate accuracy
         std::vector<float> gtvec;
         if (!get_groundtruth_odometry(gt, time1, time2, gtvec)) {
@@ -185,7 +177,6 @@ int main(int argc, const char *argv[]) {
         ofs << gtvec[0] << "," << gtvec[1] << "," << gtvec[5] << ",";
         ofs << time1 << "," << time2 << "," << Tmd(0, 3) << "," << Tmd(1, 3) << "," <<  yaw2 << ",";
         ofs << Tmd2(0, 3) << "," << Tmd2(1, 3) << "," << yaw3 << "\n";
-        std::cout << "hei9\n";
         // cv::Mat img_matches;
         // cv::drawMatches(img1, kp1, img2, kp2, good_matches, img_matches, cv::Scalar::all(-1),
         //          cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);

@@ -71,8 +71,8 @@ void load_radar(std::string path, std::vector<int64_t> &timestamps, std::vector<
 //    for (double azimuth: azimuths){
 //        std::cout << azimuth << std::endl;
 //    }
-    cv::imshow("fftdata", fft_data);
-    cv::waitKey(0);
+//    cv::imshow("fftdata", fft_data);
+//    cv::waitKey(0);
 }
 
 // file is in the oxford dataset format
@@ -223,6 +223,7 @@ void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, 
 //    for (double azimuth: azimuths){
 //        std::cout << azimuth << std::endl;
 //    }
+    float theta_max = 0;
 #pragma omp parallel for collapse(2)
     for (int i = 0; i < range.rows; ++i) {
         for (int j = 0; j < range.cols; ++j) {
@@ -235,13 +236,16 @@ void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, 
             float theta = atan2f(y, x);
             if (theta < 0)
                 theta += 2 * M_PI;
-            if (navtech_version == CIR204) {
+            if (true || navtech_version == CIR204) {
                 angle.at<float>(i, j) = get_azimuth_index(azimuths, theta);
             } else {
                 angle.at<float>(i, j) = (theta - azimuths[0]) / azimuth_step;
             }
+            if (theta_max < theta)
+                theta_max = theta;
         }
     }
+    std::cout << "theta_max: " << theta_max << "azimut_len: " << azimuths.size() << std::endl;
     if (interpolate_crossover) {
         cv::Mat a0 = cv::Mat::zeros(1, fft_data.cols, CV_32F);
         cv::Mat aN_1 = cv::Mat::zeros(1, fft_data.cols, CV_32F);
@@ -259,6 +263,20 @@ void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, 
         cv::minMaxLoc(cart_img, &min, &max);
         cart_img.convertTo(cart_img, CV_8UC1, 255.0 / max);
     }
+    cv::imshow("Conv_done", cart_img);
+    cv::Mat range_viz;
+    cv::Mat angle_viz;
+//    range.convertTo(range_viz, CV_32F, 1.0 / 255, 0);
+    cv::normalize(range, range_viz, 0, 1, cv::NORM_MINMAX);
+    cv::normalize(angle, angle_viz, 0, 1, cv::NORM_MINMAX);
+    cv::imshow("Range", range_viz);
+    cv::imshow("Angle", angle_viz);
+    cv::Mat viz_img;
+    int down_width = 800;
+    int down_height = 800;
+    cv::resize(fft_data, viz_img, cv::Size(down_width, down_height), cv::INTER_LINEAR);
+    cv::imshow("Conv_undone", viz_img);
+    cv::waitKey(1);
 }
 
 void polar_to_cartesian_points(std::vector<double> azimuths, Eigen::MatrixXd polar_points,
@@ -369,18 +387,14 @@ void draw_points(cv::Mat &vis, Eigen::MatrixXd cart_targets, float cart_resoluti
 
 // Oxford format
 bool get_groundtruth_odometry(std::string gtfile, int64 t1, int64 t2, std::vector<float> &gt) {
-    std::cout << "Reading groundtruth from " << gtfile << std::endl;
     std::ifstream ifs(gtfile);
-    std::cout << "Reading groundtruth from " << gtfile << std::endl;
     std::string line;
     std::getline(ifs, line);
-    std::cout << "Got first line\n";
     gt.clear();
     bool gtfound = false;
     while (std::getline(ifs, line)) {
         std::vector<std::string> parts;
         boost::split(parts, line, boost::is_any_of(","));
-        std::cout << "Stoll argument: " << parts[9] << ", " << parts[8] << std::endl;
         if (std::stoll(parts[9]) == t1 && std::stoll(parts[8]) == t2) {
             for (int i = 2; i < 8; ++i) {
                 gt.push_back(std::stof(parts[i]));
@@ -389,7 +403,6 @@ bool get_groundtruth_odometry(std::string gtfile, int64 t1, int64 t2, std::vecto
             break;
         }
     }
-    std::cout << "Got ground truth\n";
     return gtfound;
 }
 
