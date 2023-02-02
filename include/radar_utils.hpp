@@ -48,7 +48,7 @@ double get_azimuth_index(std::vector<double> &azimuths, double azimuth);
 */
 void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, float radar_resolution,
     float cart_resolution, int cart_pixel_width, bool interpolate_crossover, cv::Mat &cart_img,
-    int output_type = CV_32F, int navtech_version = CTS350);
+    int output_type = CV_32F, int navtech_version = CIR204);
 
 /*!
    \brief Converts points from polar coordinates to cartesian coordinates

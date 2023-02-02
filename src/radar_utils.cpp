@@ -236,7 +236,7 @@ void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, 
             float theta = atan2f(y, x);
             if (theta < 0)
                 theta += 2 * M_PI;
-            if (true || navtech_version == CIR204) {
+            if (navtech_version == CIR204) {
                 angle.at<float>(i, j) = get_azimuth_index(azimuths, theta);
             } else {
                 angle.at<float>(i, j) = (theta - azimuths[0]) / azimuth_step;

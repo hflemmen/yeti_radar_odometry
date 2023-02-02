@@ -34,9 +34,9 @@ int main(int argc, const char *argv[]) {
     int patch_size = 21;                // width of patch in pixels in cartesian radar image
     float nndr = 0.80;                  // Nearest neighbor distance ratio
     // RANSAC
-    double ransac_threshold = 0.35;
-    double inlier_ratio = 0.90;
-    int max_iterations = 100;
+    double ransac_threshold = 0.25;
+    double inlier_ratio = 0.70; // 0.90;
+    int max_iterations = 2000; // 100;
     // MDRANSAC
     int max_gn_iterations = 10;
     double md_threshold = pow(ransac_threshold, 2);
@@ -97,7 +97,7 @@ int main(int argc, const char *argv[]) {
         std::cout << "img1.shape: " << img1.size() << ", img2.size():" << img2.size() << '\n';
         std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << ") desc1size: " << desc1.size() << "\n";
 //        cv::imshow("img2", img2);
-//        cv::waitKey(0);
+//        cv::waitKey(1);
         if (i == 0)
             continue;
         // Match keypoint descriptors
