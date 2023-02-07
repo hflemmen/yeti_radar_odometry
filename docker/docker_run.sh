@@ -6,7 +6,7 @@ xhost +local:root
 #   keenan-yeti-1.0 "cd res &&  /catkin_ws/build/yeti/odometry --root /oxford/ --sequence 2019-01-10-14-36-48-radar-oxford-10k-partial --append test && cat accuracytest.csv"
 
 
-docker run -it --network host --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --name yeti \
+docker run -it --rm --network host --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --name yeti \
 --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
 --volume="/home/henrik/.Xauthority:/root/.Xauthority:rw,z" \
  -v /home/henrik/Data/oxford:/oxford/ -v /home/henrik/Results/yeti:/res/ \
