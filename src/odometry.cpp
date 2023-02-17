@@ -19,14 +19,14 @@ int main(int argc, const char *argv[]) {
     std::string datadir = root + sequence + "/radar";
     std::string gt = root + sequence + "/gt/radar_odometry.csv";
 
-    int min_range = 500; // 58;                 // min range of radar points (bin)
+    int min_range = 400; // 58;                 // min range of radar points (bin)
     float radar_resolution = 3.7; // 0.0432;    // resolution of radar bins in meters per bin
     float cart_resolution =  16; // 0.2592;     // meters per pixel
     int cart_pixel_width = 1264;         // height and width of cartesian image in pixels
     bool interp = true;
     int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
     // cen2018 parameters
-    float zq = 3.0;
+    float zq = 15.0;
     int sigma_gauss = 17;
     // cen2019 parameters
     int max_points = 10000;
@@ -67,7 +67,7 @@ int main(int argc, const char *argv[]) {
     std::vector<bool> valid;
     cv::Mat fft_data;
 
-    for (uint i = 0; i < radar_files.size() - 1; ++i) {
+    for (uint i = 0; i < radar_files.size() - 1 || i < 50; ++i) {
         std::cout << i << "/" << radar_files.size() << std::endl;
         if (i > 0) {
             t1 = t2; desc1 = desc2.clone(); cart_targets1 = cart_targets2;
