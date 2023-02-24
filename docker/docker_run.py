@@ -11,7 +11,7 @@ def run_yeti(dataset: str):
     --volume="/home/henrik/.Xauthority:/root/.Xauthority:rw,z" 
      -v="/home/henrik/Data/oxford:/oxford/" -v="/home/henrik/Results/yeti:/res/" 
      -v="/home/henrik/Repos/yeti_radar_odometry/:/catkin_ws/src/yeti_radar_odometry/" 
-     keenan-yeti-1.0 "cd catkin_ws && catkin build && cd /res/ && /catkin_ws/build/yeti/odometry --root /oxford/polarlys/ --sequence {dataset} --append _{dataset}_polarlys && cat accuracytest.csv" """)
+     keenan-yeti-1.0 "cd catkin_ws && catkin build && cd /res/ && /catkin_ws/build/yeti/odometry --root /oxford/polarlys/ --sequence {dataset} --append _{dataset}_polarlys-test" """)
     print(command)
     subprocess.run(command)
 
@@ -26,5 +26,6 @@ def run_yeti_on_all():
 
 
 if __name__ == '__main__':
-    # run_yeti('2018-06-17-13_42_00')
+    # run_yeti('2018-06-20-20_05_30')
+    # run_yeti('2018-06-24-01_05_00')
     run_yeti_on_all()
