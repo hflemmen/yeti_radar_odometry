@@ -194,9 +194,8 @@ double get_azimuth_index(std::vector<double> &azimuths, double azimuth) {
 }
 
 void radar_polar_to_cartesian(std::vector<double> &azimuths, cv::Mat &fft_data, float radar_resolution,
-    float cart_resolution, int cart_pixel_width, bool interpolate_crossover, cv::Mat &cart_img_init, int output_type,
+    float cart_resolution, int cart_pixel_width, bool interpolate_crossover, cv::Mat &cart_img, int output_type,
     int navtech_version) {
-    cv::Mat cart_img = cart_img_init.clone();
 
     float cart_min_range = (cart_pixel_width / 2) * cart_resolution;
     if (cart_pixel_width % 2 == 0)

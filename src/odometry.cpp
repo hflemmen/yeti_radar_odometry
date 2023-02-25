@@ -20,7 +20,7 @@ int main(int argc, const char *argv[]) {
     std::string gt = root + sequence + "/gt/radar_odometry.csv";
 
     int min_range = 400; // 58;                 // min range of radar points (bin)
-    float radar_resolution = 3.7; // 0.0432;    // resolution of radar bins in meters per bin
+    float radar_resolution = 3.406700; // 0.0432;    // resolution of radar bins in meters per bin
     float cart_resolution =  16; // 0.2592;     // meters per pixel
     int cart_pixel_width = 1264;                // height and width of cartesian image in pixels
     bool interp = true;
@@ -67,7 +67,7 @@ int main(int argc, const char *argv[]) {
     std::vector<bool> valid;
     cv::Mat fft_data;
 
-    for (uint i = 0; i < radar_files.size() - 1 || i < 50; ++i) {
+    for (uint i = 0; i < radar_files.size() - 1 ; ++i) {
         std::cout << i << "/" << radar_files.size() << std::endl;
         if (i > 0) {
             t1 = t2; desc1 = desc2.clone(); cart_targets1 = cart_targets2;
@@ -185,8 +185,6 @@ int main(int argc, const char *argv[]) {
         ofs << gtvec[0] << "," << gtvec[1] << "," << gtvec[5] << ",";
         ofs << time1 << "," << time2 << "," << Tmd(0, 3) << "," << Tmd(1, 3) << "," <<  yaw2 << ",";
         ofs << Tmd2(0, 3) << "," << Tmd2(1, 3) << "," << yaw3 << "\n";
-        std::cout << "MD estimate: \t\t" << Tmd(0, 3) << "," << Tmd(1, 3) << "," <<  yaw2 << "\n";
-        std::cout << "Doppler estimate: \t" << Tmd2(0, 3) << "," << Tmd2(1, 3) << "," << yaw3 << "\n";
         // cv::Mat img_matches;
         // cv::drawMatches(img1, kp1, img2, kp2, good_matches, img_matches, cv::Scalar::all(-1),
         //          cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
