@@ -19,26 +19,26 @@ int main(int argc, const char *argv[]) {
     std::string datadir = root + sequence + "/radar";
     std::string gt = root + sequence + "/gt/radar_odometry.csv";
 
-    int min_range = 100; // 58;                 // min range of radar points (bin)
+    int min_range = 400; // 58;                 // min range of radar points (bin)
     float radar_resolution = 3.7; // 0.0432;    // resolution of radar bins in meters per bin
     float cart_resolution =  16; // 0.2592;     // meters per pixel
-    int cart_pixel_width = 1264;         // height and width of cartesian image in pixels
+    int cart_pixel_width = 1264;                // height and width of cartesian image in pixels
     bool interp = true;
-    int keypoint_extraction = 0; // 0;      // 0: cen2018, 1: cen2019, 2: orb
+    int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
     // cen2018 parameters
-    float zq = 10; // 3.0;
-    int sigma_gauss = 17;
+    float zq = 15.0;
+    int sigma_gauss = 33;
     // cen2019 parameters
-    int max_points = 10000;
+    int max_points = 10000; // 10000;
     // ORB descriptor / matching parameters
-    int patch_size = 21;                // width of patch in pixels in cartesian radar image
-    float nndr = 0.80;                  // Nearest neighbor distance ratio
+    int patch_size = 101;                // width of patch in pixels in cartesian radar image
+    float nndr = 0.90; // 0.80;                  // Nearest neighbor distance ratio
     // RANSAC
-    double ransac_threshold = 0.25;
-    double inlier_ratio = 0.70; // 0.90;
+    double ransac_threshold = 15; // 0.25;
+    double inlier_ratio = 0.5; // 0.90;
     int max_iterations = 2000; // 100;
     // MDRANSAC
-    int max_gn_iterations = 10;
+    int max_gn_iterations = 100; //  10;
     double md_threshold = pow(ransac_threshold, 2);
     // DOPPLER
     double beta = 0.049;
@@ -67,17 +67,14 @@ int main(int argc, const char *argv[]) {
     std::vector<bool> valid;
     cv::Mat fft_data;
 
-    for (uint i = 0; i < radar_files.size() - 1; ++i) {
+    for (uint i = 0; i < radar_files.size() - 1 || i < 50; ++i) {
         std::cout << i << "/" << radar_files.size() << std::endl;
         if (i > 0) {
             t1 = t2; desc1 = desc2.clone(); cart_targets1 = cart_targets2;
             kp1 = kp2; img2.copyTo(img1);
         }
-
         std::cout << "Reading file: " << datadir + "/" + radar_files[i] << '\n';
         load_radar(datadir + "/" + radar_files[i], times, azimuths, valid, fft_data);
-//        cv::imshow("fft", fft_data);
-//        cv::waitKey(0);
         if (keypoint_extraction == 0)
             cen2018features(fft_data, zq, sigma_gauss, min_range, targets);
         if (keypoint_extraction == 1)
@@ -90,8 +87,6 @@ int main(int argc, const char *argv[]) {
                 // radar_resolution, 0.3456, 722, desc2);
             detector->compute(img2, kp2, desc2);
         }
-//        cv::imshow("img22", img2);
-//        cv::waitKey(0);
         std::cout << "Keypoint extraction done" << std::endl;
         if (keypoint_extraction == 2) {
             detector->detect(img2, kp2);
@@ -102,13 +97,15 @@ int main(int argc, const char *argv[]) {
         std::cout << "img1.shape: " << img1.size() << ", img2.size():" << img2.size() << '\n';
         std::cout << "targets: (" << targets.rows() << ", " << targets.cols() << ") desc1size: " << desc1.size() << "\n";
 
+        std::cout << "img2.size()" << img2.size() << ", img1.size():" << img1.size() << std::endl;
         cv::Mat viz = img2.clone();
         std::cout << "kp2.size(): " << kp2.size() << std::endl;
         for (unsigned int e = 0; e < kp2.size(); ++e) {
             cv::circle(viz, kp2[e].pt, 2, cv::Scalar(255, 0, 0), -1);
         }
-//        cv::imshow("viz", viz);
-//        cv::waitKey(1);
+        cv::imshow("viz", viz);
+//        cv::imshow("img2", img2);
+        cv::waitKey(1);
         if (i == 0)
             continue;
         // Match keypoint descriptors
@@ -124,7 +121,7 @@ int main(int argc, const char *argv[]) {
                 good_matches.push_back(knn_matches[j][0]);
             }
         }
-        std::cout << "good_matches: " << good_matches.size() << '\n';
+        std::cout << "good_matches: " << good_matches.size()  << " out of knn_matches:" << knn_matches.size() << '\n';
         // Convert the good key point matches to Eigen matrices
         Eigen::MatrixXd p1 = Eigen::MatrixXd::Zero(2, good_matches.size());
         Eigen::MatrixXd p2 = p1;
@@ -188,6 +185,8 @@ int main(int argc, const char *argv[]) {
         ofs << gtvec[0] << "," << gtvec[1] << "," << gtvec[5] << ",";
         ofs << time1 << "," << time2 << "," << Tmd(0, 3) << "," << Tmd(1, 3) << "," <<  yaw2 << ",";
         ofs << Tmd2(0, 3) << "," << Tmd2(1, 3) << "," << yaw3 << "\n";
+        std::cout << "MD estimate: \t\t" << Tmd(0, 3) << "," << Tmd(1, 3) << "," <<  yaw2 << "\n";
+        std::cout << "Doppler estimate: \t" << Tmd2(0, 3) << "," << Tmd2(1, 3) << "," << yaw3 << "\n";
         // cv::Mat img_matches;
         // cv::drawMatches(img1, kp1, img2, kp2, good_matches, img_matches, cv::Scalar::all(-1),
         //          cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
