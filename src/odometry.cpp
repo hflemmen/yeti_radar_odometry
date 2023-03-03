@@ -31,7 +31,7 @@ int main(int argc, const char *argv[]) {
     // cen2019 parameters
     int max_points = 10000; // 10000;
     // ORB descriptor / matching parameters
-    int patch_size = 101;                // width of patch in pixels in cartesian radar image
+	int patch_size = 61;
     float nndr = 0.90; // 0.80;                  // Nearest neighbor distance ratio
     // RANSAC
     double ransac_threshold = 15; // 0.25;
@@ -103,9 +103,9 @@ int main(int argc, const char *argv[]) {
         for (unsigned int e = 0; e < kp2.size(); ++e) {
             cv::circle(viz, kp2[e].pt, 2, cv::Scalar(255, 0, 0), -1);
         }
-        cv::imshow("viz", viz);
+//        cv::imshow("viz", viz);
 //        cv::imshow("img2", img2);
-        cv::waitKey(1);
+//        cv::waitKey(1);
         if (i == 0)
             continue;
         // Match keypoint descriptors
