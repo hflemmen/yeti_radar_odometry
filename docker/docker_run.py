@@ -40,7 +40,8 @@ param_Strings = {"zq": "float zq",
                  "patch_size":"int patch_size",
                  "cart_resolution": "float cart_resolution",
                  "ransac_threshold": "double ransac_threshold",
-                 "nndr": "float nndr",}
+                 "nndr": "float nndr",
+                 "inlier_ratio": "double inlier_ratio",}
 
 def change_parameter(search_str: str, new_value):
     odometry_file = "/home/henrik/Repos/yeti_radar_odometry/src/odometry.cpp"
@@ -54,6 +55,7 @@ def change_parameter(search_str: str, new_value):
             break
     if newline is None:
         print("String not found")
+        raise ValueError("String not found")
     else:
         with open(odometry_file, 'w') as f:
             f.writelines(lines)
@@ -67,7 +69,7 @@ def for_parameter_range(range: list, param):
         run_yeti("2018-06-23-22_22_30", f"{param}_{value}")
 
 def run_parameter_range():
-    param = "nndr"
+    param = "inlier_ratio"
     param_range = [0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
     # param_range = list(range(19, 30))
     for_parameter_range(param_range, param)
