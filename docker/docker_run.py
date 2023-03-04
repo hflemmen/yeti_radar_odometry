@@ -39,7 +39,8 @@ param_Strings = {"zq": "float zq",
                  "sigma_gauss": "int sigma_gauss",
                  "patch_size":"int patch_size",
                  "cart_resolution": "float cart_resolution",
-                 "ransac_threshold": "float ransac_threshold",}
+                 "ransac_threshold": "double ransac_threshold",
+                 "nndr": "float nndr",}
 
 def change_parameter(search_str: str, new_value):
     odometry_file = "/home/henrik/Repos/yeti_radar_odometry/src/odometry.cpp"
@@ -66,8 +67,9 @@ def for_parameter_range(range: list, param):
         run_yeti("2018-06-23-22_22_30", f"{param}_{value}")
 
 def run_parameter_range():
-    param = "cart_resolution"
-    param_range = [0.5, 1.0, 2.0, 4.0, 8.0, 12.0, 15.0, 18.0, 20.0, 24.0, 30.0, 35.0, 40.0, 50.0]
+    param = "nndr"
+    param_range = [0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
+    # param_range = list(range(19, 30))
     for_parameter_range(param_range, param)
 
 
