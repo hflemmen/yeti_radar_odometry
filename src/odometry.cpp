@@ -21,7 +21,7 @@ int main(int argc, const char *argv[]) {
 
     int min_range = 400; // 58;                 // min range of radar points (bin)
     float radar_resolution = 3.406700; // 0.0432;    // resolution of radar bins in meters per bin
-    float cart_resolution =  16; // 0.2592;     // meters per pixel
+    float cart_resolution =  18; // 0.2592;     // meters per pixel
     int cart_pixel_width = 1264;                // height and width of cartesian image in pixels
     bool interp = true;
     int keypoint_extraction = 0;        // 0: cen2018, 1: cen2019, 2: orb
