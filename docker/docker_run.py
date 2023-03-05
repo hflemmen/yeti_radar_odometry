@@ -1,4 +1,5 @@
 import glob
+import multiprocessing
 import subprocess
 import shlex
 from enum import Enum
@@ -14,7 +15,7 @@ to_code_copy = {
     '2018-06-15-17_41_30': 'h',
     '2018-06-23-08_28_30': 'i',
 }
-def run_yeti(dataset: str, append="test"):
+def run_yeti(dataset: str, append="final"):
     subprocess.run(shlex.split("xhost +local:root"))
     command = shlex.split(
         f"""docker run -it --rm --network host --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --name="yeti_{dataset}" 
@@ -31,9 +32,15 @@ def run_yeti_on_all():
     dataset_base = "/home/henrik/Data/oxford/polarlys/"
     dataset_paths = glob.glob(dataset_base + "*")
     datasets = [path.split("/")[-1] for path in dataset_paths]
+    cfg = []
     for dataset in datasets:
         print(dataset)
-        run_yeti(dataset)
+        # run_yeti(dataset)
+        cfg.append(dataset)
+
+    with multiprocessing.Pool(8) as p:
+        p.map(run_yeti, cfg)
+
 
 param_Strings = {"zq": "float zq",
                  "sigma_gauss": "int sigma_gauss",
@@ -80,6 +87,6 @@ if __name__ == '__main__':
     # run_yeti('2018-06-20-20_05_30')
     # run_yeti('2018-06-24-01_05_00')
     # run_yeti('2018-06-17-13_42_00')
-    # run_yeti_on_all()
+    run_yeti_on_all()
     # change_parameter("float zq", 18)
-    run_parameter_range()
+    # run_parameter_range()
