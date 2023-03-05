@@ -41,7 +41,8 @@ param_Strings = {"zq": "float zq",
                  "cart_resolution": "float cart_resolution",
                  "ransac_threshold": "double ransac_threshold",
                  "nndr": "float nndr",
-                 "inlier_ratio": "double inlier_ratio",}
+                 "inlier_ratio": "double inlier_ratio",
+                 "min_range": "int min_range",}
 
 def change_parameter(search_str: str, new_value):
     odometry_file = "/home/henrik/Repos/yeti_radar_odometry/src/odometry.cpp"
@@ -69,9 +70,9 @@ def for_parameter_range(range: list, param):
         run_yeti("2018-06-23-22_22_30", f"{param}_{value}")
 
 def run_parameter_range():
-    param = "inlier_ratio"
-    param_range = [0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
-    # param_range = list(range(19, 30))
+    param = "patch_size"
+    # param_range = [350, 450]
+    param_range = list(range(53, 73, 2))
     for_parameter_range(param_range, param)
 
 
