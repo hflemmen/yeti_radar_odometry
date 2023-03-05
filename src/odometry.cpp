@@ -19,7 +19,7 @@ int main(int argc, const char *argv[]) {
     std::string datadir = root + sequence + "/radar";
     std::string gt = root + sequence + "/gt/radar_odometry.csv";
 
-    int min_range = 400; // 58;                 // min range of radar points (bin)
+    int min_range = 450; // 58;                 // min range of radar points (bin)
     float radar_resolution = 3.406700; // 0.0432;    // resolution of radar bins in meters per bin
     float cart_resolution =  18; // 0.2592;     // meters per pixel
     int cart_pixel_width = 1264;                // height and width of cartesian image in pixels
